@@ -26,14 +26,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ))
         : Scrollbar(
             showTrackOnHover: true,
-            child: ListView(
-                children: categoriesData.categories
-                    .map((element) => _categoryListWidget(
-                          icon: element.icon,
-                          title: element.title,
-                          subCategory: element.subCategory,
-                        ))
-                    .toList()),
+            child: ListView(children: [
+              ...categoriesData.categories
+                  .map((element) => _categoryListWidget(
+                        icon: element.icon,
+                        title: element.title,
+                        subCategory: element.subCategory,
+                      ))
+                  .toList()
+            ]),
           );
   }
 }
@@ -81,7 +82,11 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(widget.icon),
+                      Image.asset(
+                        'assets/images/category_fruit.png',
+                        width: MediaQuery.of(context).size.width * 0.06,
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
                       const SizedBox(
                         width: 10.0,
                       ),
