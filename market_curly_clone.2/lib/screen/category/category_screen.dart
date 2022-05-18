@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:market_curly_clone/providers/category.dart';
+import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -10,40 +12,43 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      showTrackOnHover: true,
-      child: ListView(children: const [
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-        _categoryListWidget(),
-      ]),
-    );
+    final categoriesData = Provider.of<GetCategories>(context);
+    return categoriesData.loading
+        ? const SizedBox(
+            width: 20,
+            height: 20,
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.grey,
+                strokeWidth: 2,
+              ),
+            ))
+        : Scrollbar(
+            showTrackOnHover: true,
+            child: ListView(
+                children: categoriesData.categories
+                    .map((element) => _categoryListWidget(
+                          icon: element.icon,
+                          title: element.title,
+                          subCategory: element.subCategory,
+                        ))
+                    .toList()),
+          );
   }
 }
 
 // ignore: camel_case_types
 class _categoryListWidget extends StatefulWidget {
-  const _categoryListWidget({Key? key}) : super(key: key);
+  final icon;
+  final title;
+  final subCategory;
+  const _categoryListWidget(
+      {required this.icon,
+      required this.title,
+      required this.subCategory,
+      Key? key})
+      : super(key: key);
 
   @override
   State<_categoryListWidget> createState() => __categoryListWidgetState();
@@ -75,12 +80,12 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text("채소1"),
-                      SizedBox(
+                    children: [
+                      Text(widget.icon),
+                      const SizedBox(
                         width: 10.0,
                       ),
-                      Text("채소2")
+                      Text(widget.title)
                     ],
                   ),
                   isSelect
@@ -91,7 +96,11 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
             ),
           ]),
         ),
-        isSelect ? const dropDownWidget() : const SizedBox()
+        isSelect
+            ? dropDownWidget(
+                subCategory: widget.subCategory,
+              )
+            : const SizedBox()
       ]),
     );
   }
@@ -99,27 +108,22 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
 
 // ignore: camel_case_types
 class dropDownWidget extends StatelessWidget {
-  const dropDownWidget({Key? key}) : super(key: key);
+  final List<dynamic> subCategory;
+  const dropDownWidget({required this.subCategory, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xffD9D3D2),
+      color: const Color(0xffD9D3D2),
       child: Container(
-        padding: EdgeInsets.only(left: 55.0),
+        padding: const EdgeInsets.only(left: 55.0),
         child: ListView(
-          shrinkWrap: true,
-          children: [
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Text("전체보기")),
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Text("전체보기")),
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Text("전체보기")),
-          ],
-        ),
+            shrinkWrap: true,
+            children: subCategory.map((element) {
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(element),
+              );
+            }).toList()),
       ),
     );
   }

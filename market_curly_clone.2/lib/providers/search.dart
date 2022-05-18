@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:market_curly_clone/screen/search/search_screen.dart';
 
 class SearchTextCheck with ChangeNotifier {
   String _searchWord = '';
-  late Widget _listWidget;
+  List<Widget> _listWidget = [const ProductTitleWidget()];
 
   String get searchWord => _searchWord;
-  Widget get listWidget => _listWidget;
+  List<Widget> get listWidget => _listWidget;
 
   void changeText(text) {
     _searchWord = text;
@@ -14,6 +15,7 @@ class SearchTextCheck with ChangeNotifier {
   }
 
   void changeWidget(data) {
+    print(data);
     _listWidget = data;
     notifyListeners();
   }
@@ -26,16 +28,43 @@ class RecentSearchesCheck with ChangeNotifier {
 
   void getItem() {
     final box = Hive.box('list');
-
-    List defaltList = box.values.toList();
-    _searchWords = defaltList.reversed.toList();
+    if (box.values.toList().isEmpty) {
+      _searchWords = [];
+    } else {
+      _searchWords = box.values.toList();
+    }
     notifyListeners();
   }
 
-  void addSearchWords(value) {
+  void addSearchWords(title) {
     final box = Hive.box('list');
-    box.add(value);
+    if (!box.values.toList().contains(title)) {
+      box.add(title);
+    }
 
+    notifyListeners();
+  }
+
+  void updateSearchWords(value) {
+    final box = Hive.box('list');
+    box.delete(value);
+    notifyListeners();
+  }
+
+  void deleteSearchWords() {
+    final box = Hive.box('list');
+    box.clear();
+    notifyListeners();
+  }
+}
+
+class RecentSearchesState with ChangeNotifier {
+  bool _deleteState = false;
+
+  bool get deleteState => _deleteState;
+
+  void changeState() {
+    _deleteState = !_deleteState;
     notifyListeners();
   }
 }

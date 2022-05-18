@@ -2,10 +2,10 @@ import 'package:badges/badges.dart';
 import "package:flutter/material.dart";
 import 'package:market_curly_clone/providers/search.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
 
 import '../../providers/products.dart';
 import '../home/new_items_screen.dart';
-import 'package:collection/collection.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -22,9 +22,6 @@ class _SearchScreenState extends State<SearchScreen> {
       providers: [
         ChangeNotifierProvider<SearchTextCheck>(
             create: (_) => SearchTextCheck()),
-        ChangeNotifierProvider<RecentSearchesCheck>(
-          create: (_) => RecentSearchesCheck(),
-        )
       ],
       child: Scaffold(
         body: GestureDetector(
@@ -43,7 +40,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Column(children: [
                     const InputSearchWidget(),
                     value.searchWord != ""
-                        ? Provider.of<SearchTextCheck>(context).listWidget
+                        ? Provider.of<SearchTextCheck>(context)
+                                .listWidget
+                                .isEmpty
+                            ? SizedBox()
+                            : Provider.of<SearchTextCheck>(context)
+                                .listWidget[0]
                         : const RecentSearchWidget()
                   ]));
             }),
@@ -62,7 +64,7 @@ class InputSearchWidget extends StatefulWidget {
 }
 
 class _InputSearchWidgetState extends State<InputSearchWidget> {
-  late FocusNode focusNode;
+  FocusNode focusNode = FocusNode();
   // ignore: prefer_typing_uninitialized_variables
 
   TextEditingController searchController = TextEditingController();
@@ -72,13 +74,12 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
     // TODO: implement initState
     super.initState();
 
-    focusNode = FocusNode();
     focusNode.addListener(() {
       setState(() {
         if (focusNode.hasFocus) {
           WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
             Provider.of<SearchTextCheck>(context, listen: false)
-                .changeWidget(const ProductTitleWidget());
+                .changeWidget([const ProductTitleWidget()]);
           });
         }
       });
@@ -89,7 +90,6 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     focusNode.dispose();
-
     super.dispose();
   }
 
@@ -123,7 +123,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                             .searchWord);
 
                 Provider.of<SearchTextCheck>(context, listen: false)
-                    .changeWidget(const SearchListView());
+                    .changeWidget([const SearchListView()]);
               },
               decoration: InputDecoration(
                   border: InputBorder.none,
@@ -210,6 +210,10 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       Provider.of<RecentSearchesCheck>(context, listen: false).getItem();
+      if (Provider.of<RecentSearchesState>(context, listen: false)
+          .deleteState) {
+        Provider.of<RecentSearchesState>(context, listen: false).changeState();
+      }
     });
   }
 
@@ -223,85 +227,123 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "최근 검색어",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                  icon: const Icon(Icons.toc),
-                  onPressed: () => showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(10.0))),
-                      builder: (context) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          child: Container(
-                            margin: EdgeInsets.all(
-                                MediaQuery.of(context).size.width * 0.05),
-                            child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    "선택 삭제",
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  Text(
-                                    "전체 삭제",
-                                    style: TextStyle(fontSize: 15),
-                                  )
-                                ]),
-                          ),
-                        );
-                      })),
-            ],
-          ),
+          Provider.of<RecentSearchesCheck>(context).searchWords.isEmpty
+              ? const SizedBox()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "최근 검색어",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    Provider.of<RecentSearchesState>(context).deleteState
+                        ? GestureDetector(
+                            onTap: () {
+                              Provider.of<RecentSearchesState>(context,
+                                      listen: false)
+                                  .changeState();
+                            },
+                            child: const Text("삭제 완료"))
+                        : IconButton(
+                            icon: const Icon(Icons.toc),
+                            onPressed: () => showModalBottomSheet(
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(10.0))),
+                                builder: (context) {
+                                  return SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
+                                    child: Container(
+                                      margin: EdgeInsets.all(
+                                          MediaQuery.of(context).size.width *
+                                              0.05),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Provider.of<RecentSearchesState>(
+                                                        context,
+                                                        listen: false)
+                                                    .changeState();
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                "선택 삭제",
+                                                style: TextStyle(fontSize: 15),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Provider.of<RecentSearchesCheck>(
+                                                        context,
+                                                        listen: false)
+                                                    .deleteSearchWords();
+                                                Provider.of<RecentSearchesCheck>(
+                                                        context,
+                                                        listen: false)
+                                                    .getItem();
+
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                "전체 삭제",
+                                                style: TextStyle(fontSize: 15),
+                                              ),
+                                            )
+                                          ]),
+                                    ),
+                                  );
+                                })),
+                  ],
+                ),
           Row(
               children: Provider.of<RecentSearchesCheck>(context)
                   .searchWords
-                  .map((element) {
-            return BadgeWidget(title: element);
+                  .mapIndexed((index, element) {
+            return BadgeWidget(title: element, index: index);
           }).toList())
         ],
       ),
     );
   }
-
-  Widget buildSheet(context) => SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.2,
-        child: Container(
-          margin: const EdgeInsets.all(12.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "선택 삭제",
-                  style: TextStyle(fontSize: 18),
-                ),
-                Text(
-                  "전체 삭제",
-                  style: TextStyle(fontSize: 18),
-                )
-              ]),
-        ),
-      );
 }
 
-class BadgeWidget extends StatelessWidget {
-  final String title;
-  const BadgeWidget({required this.title, Key? key}) : super(key: key);
+class BottomSheetWidget extends StatefulWidget {
+  const BottomSheetWidget({Key? key}) : super(key: key);
 
   @override
+  State<BottomSheetWidget> createState() => _BottomSheetWidgetState();
+}
+
+class _BottomSheetWidgetState extends State<BottomSheetWidget> {
+  @override
   Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class BadgeWidget extends StatefulWidget {
+  final String title;
+  final int index;
+  const BadgeWidget({required this.title, required this.index, Key? key})
+      : super(key: key);
+
+  @override
+  State<BadgeWidget> createState() => _BadgeWidgetState();
+}
+
+class _BadgeWidgetState extends State<BadgeWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final deleteState = Provider.of<RecentSearchesState>(context).deleteState;
     return Container(
       margin: const EdgeInsets.all(5),
       child: Badge(
@@ -310,13 +352,31 @@ class BadgeWidget extends StatelessWidget {
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(30),
         badgeColor: Colors.white,
-        badgeContent: Row(children: [
-          Text(
-            title,
-            style: const TextStyle(color: Colors.black),
-          ),
-          Icon(Icons.remove)
-        ]),
+        badgeContent: GestureDetector(
+          onTap: () {
+            if (deleteState) {
+              Provider.of<RecentSearchesCheck>(context, listen: false)
+                  .updateSearchWords(widget.index);
+              Provider.of<RecentSearchesCheck>(context, listen: false)
+                  .getItem();
+            } else {
+              // 추후 상세페이지 기능 구현 시 추가
+              print("상세페이지 이동");
+            }
+          },
+          child: Row(children: [
+            Text(
+              widget.title,
+              style: const TextStyle(color: Colors.black),
+            ),
+            deleteState
+                ? const Icon(
+                    Icons.remove,
+                    size: 15,
+                  )
+                : const SizedBox()
+          ]),
+        ),
       ),
     );
   }
@@ -349,7 +409,6 @@ class ProductTitleWidget extends StatelessWidget {
                       .where((item) {
                 return item.title.contains(searchWord);
               }).map((item) {
-                print("호출됩니당");
                 return TextStyleWidget(title: item.title);
               }).toList()),
             ),

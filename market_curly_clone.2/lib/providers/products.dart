@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class GetProducts with ChangeNotifier {
   late List<Product> _products = [];
   bool loading = false;
+
   List<Product> get products => _products;
 
   getProducts() async {
@@ -31,6 +32,7 @@ Future<List<Product>> fetchProducts() async {
     if (response.statusCode == 200) {
       final parsedBody = jsonDecode(response.body).cast<Map<String, dynamic>>();
       if (parsedBody is! List) {
+        // ignore: todo
         // TODO. throw exception
       }
       productList =

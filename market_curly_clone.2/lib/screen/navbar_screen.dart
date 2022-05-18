@@ -1,3 +1,4 @@
+import '../providers/category.dart';
 import '../providers/navbar.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
@@ -22,6 +23,13 @@ class _NavBarScreenState extends State<NavBarScreen> {
     SearchScreen(),
     MyScreen()
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<GetCategories>(context, listen: false).getCategories();
+  }
 
   @override
   Widget build(BuildContext context) {

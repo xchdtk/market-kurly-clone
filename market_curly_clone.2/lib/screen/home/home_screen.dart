@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:market_curly_clone/providers/category.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:market_curly_clone/providers/products.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(children: [
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 50.0,
+          height: MediaQuery.of(context).size.height * 0.052,
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [...rendermenu()]),

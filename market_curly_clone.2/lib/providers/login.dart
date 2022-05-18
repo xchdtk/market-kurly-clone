@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:market_curly_clone/models/Login.dart';
+import 'package:market_curly_clone/models/login.dart';
 
 class LoginState with ChangeNotifier {
   bool _isLogined = false;
