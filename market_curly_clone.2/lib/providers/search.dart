@@ -15,7 +15,6 @@ class SearchTextCheck with ChangeNotifier {
   }
 
   void changeWidget(data) {
-    print(data);
     _listWidget = data;
     notifyListeners();
   }
@@ -26,34 +25,38 @@ class RecentSearchesCheck with ChangeNotifier {
 
   List get searchWords => _searchWords;
 
-  void getItem() {
+  Future<void> addSearchWords(title) async {
     final box = Hive.box('list');
+    if (!box.values.toList().contains(title)) {
+      await box.add(title);
+    }
+
+    _searchWords = [
+      for (var v in box.keys.toList()) [v, box.get(v)]
+    ];
+
+    notifyListeners();
+  }
+
+  Future<void> updateSearchWords(value) async {
+    final box = Hive.box('list');
+    await box.delete(value);
+
     if (box.values.toList().isEmpty) {
       _searchWords = [];
     } else {
-      _searchWords = box.values.toList();
-    }
-    notifyListeners();
-  }
-
-  void addSearchWords(title) {
-    final box = Hive.box('list');
-    if (!box.values.toList().contains(title)) {
-      box.add(title);
+      _searchWords = [
+        for (var v in box.keys.toList()) [v, box.get(v)]
+      ];
     }
 
     notifyListeners();
   }
 
-  void updateSearchWords(value) {
+  Future<void> deleteSearchWords() async {
     final box = Hive.box('list');
-    box.delete(value);
-    notifyListeners();
-  }
-
-  void deleteSearchWords() {
-    final box = Hive.box('list');
-    box.clear();
+    await box.clear();
+    _searchWords = [];
     notifyListeners();
   }
 }

@@ -23,7 +23,7 @@ class _MyScreenState extends State<MyScreen> {
               : const LoginResigerWidget(),
           Container(
             color: const Color(0xffe5dede),
-            height: 6,
+            height: MediaQuery.of(context).size.height * 0.01,
           ),
         ],
       ),
@@ -36,17 +36,20 @@ class LoginResigerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Container(
-      height: 200,
-      padding: const EdgeInsets.all(18),
+      height: height * 0.3,
+      padding: EdgeInsets.all(width * 0.04),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("회원가입 하고", style: TextStyle(fontSize: 18)),
-          const Text("다양한 혜택을 받아보세요!", style: TextStyle(fontSize: 18)),
-          const SizedBox(
-            height: 50,
+          Text("회원가입 하고", style: TextStyle(fontSize: width * 0.035)),
+          Text("다양한 혜택을 받아보세요!", style: TextStyle(fontSize: width * 0.035)),
+          SizedBox(
+            height: width * 0.12,
           ),
           ElevatedButtonWidget(
             onPressed: () {

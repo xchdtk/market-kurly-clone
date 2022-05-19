@@ -50,8 +50,6 @@ Future<List<Category>> fetchCategories() async {
 
       categoryList =
           parsedBody.map<Category>((item) => Category.fromJson(item)).toList();
-
-      print(categoryList);
     } else {
       Fluttertoast.showToast(
           msg: "not categories",

@@ -2,6 +2,7 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:flutter_svg/svg.dart';
 import 'package:loop_page_view/loop_page_view.dart';
+import 'package:market_curly_clone/screen/detail.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/products.dart';
@@ -80,10 +81,12 @@ class _SliderImagesState extends State<SliderImages> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Stack(children: [
       SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: 330,
+        width: width,
+        height: height * 0.47,
         child: LoopPageView.builder(
           pageSnapping: true,
           controller: controller,
@@ -140,19 +143,29 @@ class _HowAboutTheProductWidgetState extends State<HowAboutTheProductWidget> {
   ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
-      margin: const EdgeInsets.only(top: 15, left: 6, right: 6, bottom: 15),
-      padding: const EdgeInsets.all(8),
+      margin: EdgeInsets.only(
+          top: height * 0.02,
+          left: width * 0.015,
+          right: width * 0.01,
+          bottom: height * 0.1),
+      padding: EdgeInsets.all(width * 0.01),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "이 상품 어때요?",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Text(
+            " 이 상품 어때요?",
+            style:
+                TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.4,
+            height: height * 0.015,
+          ),
+          SizedBox(
+            width: width,
+            height: height * 0.4,
             child: ListView(
               controller: controller,
               scrollDirection: Axis.horizontal,
@@ -161,39 +174,47 @@ class _HowAboutTheProductWidgetState extends State<HowAboutTheProductWidget> {
                   .products
                   .map<Widget>(
                     (element) => Container(
-                      width: 150,
+                      width: width * 0.4,
                       margin: const EdgeInsets.symmetric(
                         horizontal: 3,
                         vertical: 8,
                       ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(children: [
-                              Image.network(
-                                element.thumbnail,
-                                width: MediaQuery.of(context).size.width,
-                                height: 200,
-                                fit: BoxFit.fill,
-                              ),
-                              Positioned(
-                                bottom: 8,
-                                right: 8,
-                                child: SvgPicture.network(
-                                  "https://s3.ap-northeast-2.amazonaws.com/res.kurly.com/kurly/ico/2021/cart_white_45_45.svg",
-                                  width: 40,
-                                  height: 40,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await Provider.of<GetProduct>(context, listen: false)
+                              .getProduct(1);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const DetailPageWidget()));
+                        },
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(children: [
+                                Image.network(
+                                  element.thumbnail,
+                                  width: width,
+                                  height: height * 0.23,
+                                  fit: BoxFit.fill,
                                 ),
-                              )
+                                Positioned(
+                                  bottom: 8,
+                                  right: 8,
+                                  child: SvgPicture.network(
+                                    "https://s3.ap-northeast-2.amazonaws.com/res.kurly.com/kurly/ico/2021/cart_white_45_45.svg",
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                )
+                              ]),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(element.title),
+                              Text("${element.price} 원",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold))
                             ]),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(element.title),
-                            Text("${element.price} 원",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold))
-                          ]),
+                      ),
                     ),
                   )
                   .toList(),

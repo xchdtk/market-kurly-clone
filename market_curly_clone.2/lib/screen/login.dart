@@ -70,7 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var userIdTextFormField = TextFormField(
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    TextFormField userIdTextFormField = TextFormField(
       onChanged: (text) {
         setState(() {});
       },
@@ -79,10 +82,9 @@ class _LoginScreenState extends State<LoginScreen> {
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-      style: const TextStyle(height: 1),
       decoration: InputDecoration(
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderSide: BorderSide(color: Colors.black),
           ),
           border: const OutlineInputBorder(),
           hintText: "아이디를 입력해주세요",
@@ -107,11 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       autofocus: false,
       obscureText: true,
-      style: const TextStyle(height: 1),
       onFieldSubmitted: (_) => LoginPressed(),
       decoration: InputDecoration(
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black, width: 1.0),
+            borderSide: BorderSide(color: Colors.black),
           ),
           border: const OutlineInputBorder(),
           hintText: "비밀번호를 입력해주세요",
@@ -142,16 +143,16 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   userIdTextFormField,
-                  const SizedBox(height: 10),
+                  SizedBox(height: height * 0.01),
                   passwordTextFormField,
-                  const SizedBox(height: 18),
+                  SizedBox(height: height * 0.018),
                   ElevatedButtonWidget(
                     onPressed: LoginPressed,
                     title: "로그인",
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: height * 0.01),
                   const _FindLoginPasswordWidget(),
-                  const SizedBox(height: 40),
+                  SizedBox(height: height * 0.04),
                 ],
               ))),
     );
@@ -164,23 +165,26 @@ class _FindLoginPasswordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         Text(
           "아이디 찾기",
-          style: TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: width * 0.023),
         ),
         SizedBox(
-          width: 4,
+          width: width * 0.01,
         ),
-        Text("|"),
+        const Text("|"),
         SizedBox(
-          width: 4,
+          width: width * 0.01,
         ),
         Text(
           "비밀번호 찾기",
-          style: TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: width * 0.023),
         )
       ],
     );

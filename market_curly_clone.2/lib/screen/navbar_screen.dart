@@ -33,38 +33,43 @@ class _NavBarScreenState extends State<NavBarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar:
-            appbar(appBarTitle[Provider.of<NavbarIndex>(context).seletedIndex]),
+        appBar: appbar(
+            appBarTitle[Provider.of<NavbarIndex>(context).seletedIndex],
+            width,
+            height),
         body: Center(
           child: _widgetOptions
               .elementAt(Provider.of<NavbarIndex>(context).seletedIndex),
         ),
-        bottomNavigationBar: _bottomNavigationBar());
+        bottomNavigationBar: _bottomNavigationBar(width, height));
   }
 
-  AppBar appbar(String title) {
+  AppBar appbar(String title, double width, double height) {
     return AppBar(
       backgroundColor: const Color(0xff5f0080),
+      toolbarHeight: height * 0.04,
       title: Text(title),
       centerTitle: true,
-      actions: const [
+      actions: [
         SizedBox(
-          width: 10,
+          width: width * 0.02,
         ),
-        Icon(Icons.location_on_outlined),
+        const Icon(Icons.location_on_outlined),
         SizedBox(
-          width: 15,
+          width: width * 0.02,
         ),
-        Icon(Icons.add_shopping_cart),
+        const Icon(Icons.add_shopping_cart),
         SizedBox(
-          width: 15,
+          width: width * 0.02,
         ),
       ],
     );
   }
 
-  BottomNavigationBar _bottomNavigationBar() {
+  BottomNavigationBar _bottomNavigationBar(double width, double height) {
     return BottomNavigationBar(
       items: const [
         BottomNavigationBarItem(
@@ -79,7 +84,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
             icon: Icon(Icons.person_outline_outlined), label: "마이컬리")
       ],
       type: BottomNavigationBarType.fixed,
-      iconSize: 22,
+      iconSize: width * 0.04,
       elevation: 0,
       currentIndex: Provider.of<NavbarIndex>(context).seletedIndex,
       selectedItemColor: Colors.purple,

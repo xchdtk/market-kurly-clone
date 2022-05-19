@@ -16,6 +16,9 @@ class NewItemState extends State<NewItem> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final products = Provider.of<GetProducts>(context).products;
 
     return Column(children: [
@@ -44,15 +47,13 @@ class NewItemState extends State<NewItem> {
                             Expanded(
                                 flex: 1,
                                 child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
+                                  height: height * 0.3,
                                 )),
                             ProductsView(product: element),
                             Expanded(
                                 flex: 14,
                                 child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
+                                  height: height * 0.3,
                                 )),
                           ],
                         );
@@ -63,8 +64,7 @@ class NewItemState extends State<NewItem> {
                           Expanded(
                               flex: 2,
                               child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
+                                height: height * 0.3,
                               )),
                           ProductsView(
                             product: element,
@@ -72,8 +72,7 @@ class NewItemState extends State<NewItem> {
                           Expanded(
                               flex: 1,
                               child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
+                                height: height * 0.3,
                               )),
                           ProductsView(
                             product: products[index + 1],
@@ -81,8 +80,7 @@ class NewItemState extends State<NewItem> {
                           Expanded(
                               flex: 2,
                               child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
+                                height: height * 0.3,
                               )),
                         ],
                       );
@@ -105,18 +103,18 @@ class CountSortWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
       margin: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.01,
-          vertical: MediaQuery.of(context).size.width * 0.01),
+          horizontal: width * 0.01, vertical: width * 0.01),
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.04,
-          vertical: MediaQuery.of(context).size.width * 0.01),
-      height: MediaQuery.of(context).size.height * 0.04,
+          horizontal: width * 0.04, vertical: width * 0.01),
+      height: height * 0.04,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("총 $productLength개", style: const TextStyle(fontSize: 14)),
+          Text("총 $productLength개", style: TextStyle(fontSize: width * 0.025)),
           const DropDownWidget(),
         ],
       ),
@@ -132,6 +130,8 @@ class ProductsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Container(
       width: width * 0.44,
       margin: EdgeInsets.symmetric(horizontal: width * 0.002),
@@ -139,19 +139,23 @@ class ProductsView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(product.thumbnail,
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width / 2,
-              fit: BoxFit.fill),
+              height: height * 0.3, width: width / 2, fit: BoxFit.fill),
           const SizedBox(
             height: 15,
           ),
           Text(
             product.title,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: width * 0.025),
           ),
-          Text(product.price),
-          const SizedBox(
-            height: 100,
+          SizedBox(
+            height: height * 0.005,
+          ),
+          Text(
+            "${product.price}원",
+            style: TextStyle(fontSize: width * 0.02),
+          ),
+          SizedBox(
+            height: height * 0.07,
           ),
         ],
       ),

@@ -58,8 +58,14 @@ class _categoryListWidget extends StatefulWidget {
 // ignore: camel_case_types
 class __categoryListWidgetState extends State<_categoryListWidget> {
   bool isSelect = false;
+
   @override
   Widget build(BuildContext context) {
+    Color color = isSelect ? const Color(0xff5f0080) : Colors.black;
+    Image iconImage = Image.asset('assets/images/category_fruit.png',
+        width: MediaQuery.of(context).size.width * 0.06,
+        height: MediaQuery.of(context).size.height * 0.04,
+        color: color);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -82,20 +88,30 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        'assets/images/category_fruit.png',
-                        width: MediaQuery.of(context).size.width * 0.06,
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
+                      iconImage,
                       const SizedBox(
                         width: 10.0,
                       ),
-                      Text(widget.title)
+                      isSelect
+                          ? Text(
+                              widget.title,
+                              style: const TextStyle(
+                                color: Color(0xff5f0080),
+                              ),
+                            )
+                          : Text(
+                              widget.title,
+                              style: const TextStyle(color: Colors.black),
+                            )
                     ],
                   ),
                   isSelect
-                      ? const Icon(Icons.arrow_upward)
-                      : const Icon(Icons.arrow_downward)
+                      ? const Icon(
+                          Icons.keyboard_arrow_up_outlined,
+                          color: Colors.grey,
+                        )
+                      : const Icon(Icons.keyboard_arrow_down_outlined,
+                          color: Colors.grey)
                 ],
               ),
             ),

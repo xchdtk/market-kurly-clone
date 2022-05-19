@@ -1,5 +1,7 @@
 import 'package:badges/badges.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/rendering.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:market_curly_clone/providers/search.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
@@ -17,7 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SearchTextCheck>(
@@ -71,6 +73,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
 
@@ -95,17 +98,17 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: height * 0.07,
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.05,
-          margin: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height * 0.008),
+          height: height * 0.05,
+          padding: EdgeInsets.only(top: height * 0.008),
+          margin: EdgeInsets.symmetric(vertical: height * 0.008),
           color: const Color(0xffEAE3E2),
-          width: focusNode.hasFocus
-              ? MediaQuery.of(context).size.width * 0.8
-              : MediaQuery.of(context).size.width * 0.92,
+          width: focusNode.hasFocus ? width * 0.8 : width * 0.92,
           child: TextFormField(
               onChanged: (text) {
                 Provider.of<SearchTextCheck>(context, listen: false)
@@ -140,6 +143,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                   suffixIcon: searchController.text == ''
                       ? null
                       : IconButton(
+                          padding: EdgeInsets.only(bottom: height * 0.0075),
                           icon: const Icon(
                             Icons.highlight_remove,
                             color: Colors.grey,
@@ -152,11 +156,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                           }))),
         ),
         focusNode.hasFocus
-            ? const Expanded(
-                flex: 2,
-                child: SizedBox(
-                  height: 40,
-                ))
+            ? const Expanded(flex: 2, child: SizedBox())
             : const SizedBox(),
         focusNode.hasFocus
             ? GestureDetector(
@@ -169,11 +169,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                 child: const Text("취소"))
             : const SizedBox(),
         focusNode.hasFocus
-            ? const Expanded(
-                flex: 1,
-                child: SizedBox(
-                  height: 40,
-                ))
+            ? const Expanded(flex: 1, child: SizedBox())
             : const SizedBox(),
       ]),
     );
@@ -209,7 +205,6 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      Provider.of<RecentSearchesCheck>(context, listen: false).getItem();
       if (Provider.of<RecentSearchesState>(context, listen: false)
           .deleteState) {
         Provider.of<RecentSearchesState>(context, listen: false).changeState();
@@ -219,8 +214,11 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -232,10 +230,10 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "최근 검색어",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: width * 0.045, fontWeight: FontWeight.bold),
                     ),
                     Provider.of<RecentSearchesState>(context).deleteState
                         ? GestureDetector(
@@ -281,15 +279,12 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
                                               ),
                                             ),
                                             GestureDetector(
-                                              onTap: () {
-                                                Provider.of<RecentSearchesCheck>(
+                                              onTap: () async {
+                                                await Provider.of<
+                                                            RecentSearchesCheck>(
                                                         context,
                                                         listen: false)
                                                     .deleteSearchWords();
-                                                Provider.of<RecentSearchesCheck>(
-                                                        context,
-                                                        listen: false)
-                                                    .getItem();
 
                                                 Navigator.of(context).pop();
                                               },
@@ -304,12 +299,17 @@ class _RecentSearchWidgetState extends State<RecentSearchWidget> {
                                 })),
                   ],
                 ),
-          Row(
-              children: Provider.of<RecentSearchesCheck>(context)
-                  .searchWords
-                  .mapIndexed((index, element) {
-            return BadgeWidget(title: element, index: index);
-          }).toList())
+          SizedBox(
+            width: width,
+            height: height * 0.07,
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: Provider.of<RecentSearchesCheck>(context)
+                    .searchWords
+                    .mapIndexed((index, element) {
+                  return BadgeWidget(title: element[1], index: element[0]);
+                }).toList()),
+          )
         ],
       ),
     );
@@ -343,39 +343,46 @@ class BadgeWidget extends StatefulWidget {
 class _BadgeWidgetState extends State<BadgeWidget> {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final deleteState = Provider.of<RecentSearchesState>(context).deleteState;
     return Container(
       margin: const EdgeInsets.all(5),
       child: Badge(
         toAnimate: false,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.04, vertical: height * 0.01),
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(30),
         badgeColor: Colors.white,
         badgeContent: GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (deleteState) {
-              Provider.of<RecentSearchesCheck>(context, listen: false)
+              await Provider.of<RecentSearchesCheck>(context, listen: false)
                   .updateSearchWords(widget.index);
-              Provider.of<RecentSearchesCheck>(context, listen: false)
-                  .getItem();
             } else {
               // 추후 상세페이지 기능 구현 시 추가
               print("상세페이지 이동");
             }
           },
-          child: Row(children: [
-            Text(
-              widget.title,
-              style: const TextStyle(color: Colors.black),
-            ),
-            deleteState
-                ? const Icon(
-                    Icons.remove,
-                    size: 15,
-                  )
-                : const SizedBox()
-          ]),
+          child: SizedBox(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.title,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  deleteState
+                      ? Icon(
+                          Icons.remove,
+                          size: width * 0.04,
+                        )
+                      : const SizedBox()
+                ]),
+          ),
         ),
       ),
     );
@@ -387,18 +394,22 @@ class ProductTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final searchWord = Provider.of<SearchTextCheck>(context).searchWord;
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 14),
+            margin: EdgeInsets.symmetric(
+                horizontal: width * 0.002, vertical: height * 0.015),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.02,
-            child: const Text(
+            child: Text(
               "상품 바로가기",
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+              style: TextStyle(color: Colors.grey, fontSize: width * 0.035),
             ),
           ),
           Expanded(
@@ -425,8 +436,12 @@ class TextStyleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 14),
+      margin: EdgeInsets.symmetric(
+          horizontal: width * 0.002, vertical: height * 0.015),
       child: Text(title),
     );
   }
@@ -443,6 +458,8 @@ class _SearchListViewState extends State<SearchListView> {
   ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final searchWord = Provider.of<SearchTextCheck>(context).searchWord;
     final products = Provider.of<GetProducts>(context).products;
     final filterProducts = products.where(
@@ -477,25 +494,13 @@ class _SearchListViewState extends State<SearchListView> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
-              flex: 2,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-              )),
+          const Expanded(flex: 2, child: SizedBox()),
           ProductsView(product: element),
-          Expanded(
-              flex: 1,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-              )),
+          const Expanded(flex: 1, child: SizedBox()),
           ProductsView(
             product: filterProducts[index + 1],
           ),
-          Expanded(
-              flex: 2,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-              )),
+          const Expanded(flex: 2, child: SizedBox()),
         ],
       );
     }).toList();
@@ -518,13 +523,13 @@ class _SearchListViewState extends State<SearchListView> {
                       height: MediaQuery.of(context).size.height * 0.7,
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.search,
-                              size: 100,
+                              size: width * 0.1,
                               color: Colors.grey,
                             ),
-                            Text(
+                            const Text(
                               "검색한 상품이 없습니다.",
                               style: TextStyle(color: Colors.grey),
                             )

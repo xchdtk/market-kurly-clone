@@ -12,10 +12,11 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('LocalMarketKulry');
   await Hive.openBox('list');
-  Hive.box('list').clear();
+  await Hive.openBox('cart');
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<GetProducts>(create: (_) => GetProducts()),
+      ChangeNotifierProvider<GetProduct>(create: (_) => GetProduct()),
       ChangeNotifierProvider<GetCategories>(create: (_) => GetCategories()),
       ChangeNotifierProvider<NavbarIndex>(create: (_) => NavbarIndex()),
       ChangeNotifierProvider<LoginState>(create: (_) => LoginState()),

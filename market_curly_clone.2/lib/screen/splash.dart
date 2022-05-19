@@ -38,8 +38,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -49,18 +49,18 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: screenWidth * 0.384375,
+              height: width * 0.384375,
             ),
             const Expanded(child: SizedBox()),
             Align(
               child: Text("© Copyright 2022, 마켓컬리",
                   style: TextStyle(
-                    fontSize: screenWidth * (14 / 360),
+                    fontSize: width * (14 / 360),
                     color: const Color.fromRGBO(255, 255, 255, 0.6),
                   )),
             ),
             SizedBox(
-              height: screenHeight * 0.0625,
+              height: height * 0.0625,
             ),
           ],
         ),
