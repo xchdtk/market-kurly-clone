@@ -1,3 +1,5 @@
+import 'package:market_curly_clone/colors/color.dart';
+
 import 'button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,21 +20,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   AppBar appBar() {
     return AppBar(
-      title: const Text(
+      title: Text(
         "로그인",
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: blackColor),
         textAlign: TextAlign.center,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: whiteColor,
       bottomOpacity: 0.0,
       elevation: 0.0,
       leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: const Icon(
+          child: Icon(
             Icons.clear,
-            color: Colors.black,
+            color: blackColor,
           )),
     );
   }
@@ -43,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
         toastLength: Toast.LENGTH_LONG,
         timeInSecForIosWeb: 2,
         gravity: ToastGravity.TOP,
-        backgroundColor: Colors.red);
+        backgroundColor: redColor);
   }
 
   // ignore: non_constant_identifier_names
@@ -83,8 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       decoration: InputDecoration(
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: blackColor),
           ),
           border: const OutlineInputBorder(),
           hintText: "아이디를 입력해주세요",
@@ -111,8 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: true,
       onFieldSubmitted: (_) => LoginPressed(),
       decoration: InputDecoration(
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: blackColor),
           ),
           border: const OutlineInputBorder(),
           hintText: "비밀번호를 입력해주세요",
@@ -136,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
+          backgroundColor: whiteColor,
           appBar: appBar(),
           body: Padding(
               padding: const EdgeInsets.all(18),

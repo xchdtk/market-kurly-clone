@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
+import 'package:market_curly_clone/colors/color.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:market_curly_clone/providers/login.dart';
@@ -44,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: const Color(0xff6F22D2),
+        backgroundColor: originalColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

@@ -41,6 +41,8 @@ dependencies:
     hive: ^2.1.0
     hive_flutter: ^1.1.0
     badges: ^2.0.2
+    page_transition: ^2.0.5
+    modal_bottom_sheet: ^2.0.1
 
 dev_dependencies:
     flutter_test:

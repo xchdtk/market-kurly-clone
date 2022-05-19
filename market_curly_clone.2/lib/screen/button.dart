@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:market_curly_clone/colors/color.dart';
 
 class ElevatedButtonWidget extends StatelessWidget {
   final String title;
@@ -13,8 +14,7 @@ class ElevatedButtonWidget extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     // ignore: non_constant_identifier_names
     final ButtonStyle ElevatedButtonStyle = ElevatedButton.styleFrom(
-        primary: const Color(0xff5f0080),
-        textStyle: TextStyle(fontSize: width * 0.03));
+        primary: originalColor, textStyle: TextStyle(fontSize: width * 0.03));
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: ConstrainedBox(
@@ -43,8 +43,8 @@ class OutLinedButtonWidget extends StatelessWidget {
 
     // ignore: non_constant_identifier_names
     final ButtonStyle OutLinedButtonStyle = OutlinedButton.styleFrom(
-        primary: const Color(0xff5f0080),
-        side: const BorderSide(color: Color(0xff5f0080), width: 1),
+        primary: originalColor,
+        side: BorderSide(color: originalColor, width: 1),
         textStyle: TextStyle(fontSize: width * 0.03));
     return SizedBox(
       width: MediaQuery.of(context).size.width,

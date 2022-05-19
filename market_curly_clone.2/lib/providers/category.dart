@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:market_curly_clone/colors/color.dart';
 import 'package:market_curly_clone/models/category.dart';
 
 class SelectListCheck with ChangeNotifier {
@@ -56,7 +57,7 @@ Future<List<Category>> fetchCategories() async {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 2,
           gravity: ToastGravity.TOP,
-          backgroundColor: Colors.red);
+          backgroundColor: redColor);
     }
     return categoryList;
   } catch (error) {

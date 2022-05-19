@@ -2,9 +2,9 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:flutter_svg/svg.dart';
 import 'package:loop_page_view/loop_page_view.dart';
+import 'package:market_curly_clone/colors/color.dart';
 import 'package:market_curly_clone/screen/detail.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/products.dart';
 
 class KulyPicks extends StatefulWidget {
@@ -112,15 +112,15 @@ class _SliderImagesState extends State<SliderImages> {
           child: Container(
             width: 40,
             height: 20,
-            decoration: const BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+            decoration: BoxDecoration(
+                color: blackColor,
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
                 '${currentPage + 1} / ${images.length}',
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: whiteColor),
               ),
             ]),
           ),
@@ -204,7 +204,7 @@ class _HowAboutTheProductWidgetState extends State<HowAboutTheProductWidget> {
                                     width: 40,
                                     height: 40,
                                   ),
-                                )
+                                ),
                               ]),
                               const SizedBox(
                                 height: 10,

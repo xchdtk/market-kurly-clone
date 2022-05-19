@@ -12,87 +12,99 @@ class NewItem extends StatefulWidget {
 }
 
 class NewItemState extends State<NewItem> {
-  ScrollController scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    final products = Provider.of<GetProducts>(context).products;
-
-    return Column(children: [
+    return Column(children: const [
       Expanded(
         child: Scaffold(
           body: RefreshIndicator(
             onRefresh: fetchProducts,
-            child: Scrollbar(
-              showTrackOnHover: true,
-              controller: scrollController,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                controller: scrollController,
-                child: Column(
-                  children: [
-                    CountSortWidget(productLength: products.length),
-                    ...products.mapIndexed((index, element) {
-                      if (index % 2 == 1) {
-                        return const SizedBox();
-                      }
-                      if (products.length == 1 ||
-                          index % 2 == 0 && index == products.length - 1) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: SizedBox(
-                                  height: height * 0.3,
-                                )),
-                            ProductsView(product: element),
-                            Expanded(
-                                flex: 14,
-                                child: SizedBox(
-                                  height: height * 0.3,
-                                )),
-                          ],
-                        );
-                      }
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: SizedBox(
-                                height: height * 0.3,
-                              )),
-                          ProductsView(
-                            product: element,
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                height: height * 0.3,
-                              )),
-                          ProductsView(
-                            product: products[index + 1],
-                          ),
-                          Expanded(
-                              flex: 2,
-                              child: SizedBox(
-                                height: height * 0.3,
-                              )),
-                        ],
-                      );
-                    }).toList()
-                  ],
-                ),
-              ),
-            ),
+            child: ProductListView(),
           ),
         ),
       ),
     ]);
+  }
+}
+
+class ProductListView extends StatefulWidget {
+  const ProductListView({Key? key}) : super(key: key);
+
+  @override
+  State<ProductListView> createState() => _ProductListViewState();
+}
+
+class _ProductListViewState extends State<ProductListView> {
+  ScrollController scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
+    final products = Provider.of<GetProducts>(context).products;
+    return Scrollbar(
+      showTrackOnHover: true,
+      controller: scrollController,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        controller: scrollController,
+        child: Column(
+          children: [
+            CountSortWidget(productLength: products.length),
+            ...products.mapIndexed((index, element) {
+              if (index % 2 == 1) {
+                return const SizedBox();
+              }
+              if (products.length == 1 ||
+                  index % 2 == 0 && index == products.length - 1) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: SizedBox(
+                          height: height * 0.3,
+                        )),
+                    ProductsView(product: element),
+                    Expanded(
+                        flex: 14,
+                        child: SizedBox(
+                          height: height * 0.3,
+                        )),
+                  ],
+                );
+              }
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        height: height * 0.3,
+                      )),
+                  ProductsView(
+                    product: element,
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: height * 0.3,
+                      )),
+                  ProductsView(
+                    product: products[index + 1],
+                  ),
+                  Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        height: height * 0.3,
+                      )),
+                ],
+              );
+            }).toList()
+          ],
+        ),
+      ),
+    );
   }
 }
 

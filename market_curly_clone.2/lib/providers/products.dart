@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:market_curly_clone/colors/color.dart';
+
 import '../models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -60,7 +62,7 @@ Future<List<Product>> fetchProducts() async {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 2,
           gravity: ToastGravity.TOP,
-          backgroundColor: Colors.red);
+          backgroundColor: redColor);
     }
   } catch (error) {
     throw Exception('failed to load products');
@@ -82,7 +84,7 @@ Future<Product> fetchProduct(productId) async {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 2,
           gravity: ToastGravity.TOP,
-          backgroundColor: Colors.red);
+          backgroundColor: redColor);
     }
   } catch (error) {
     Exception('failed to load product');

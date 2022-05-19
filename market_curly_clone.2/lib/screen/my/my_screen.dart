@@ -1,3 +1,5 @@
+import 'package:market_curly_clone/colors/color.dart';
+
 import '../../providers/login.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class _MyScreenState extends State<MyScreen> {
               ? const logOutWidget()
               : const LoginResigerWidget(),
           Container(
-            color: const Color(0xffe5dede),
+            color: greyTone,
             height: MediaQuery.of(context).size.height * 0.01,
           ),
         ],

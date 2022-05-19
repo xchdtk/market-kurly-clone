@@ -1,3 +1,5 @@
+import 'package:market_curly_clone/colors/color.dart';
+
 import '../providers/category.dart';
 import '../providers/navbar.dart';
 import "package:flutter/material.dart";
@@ -49,7 +51,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
 
   AppBar appbar(String title, double width, double height) {
     return AppBar(
-      backgroundColor: const Color(0xff5f0080),
+      backgroundColor: originalColor,
       toolbarHeight: height * 0.04,
       title: Text(title),
       centerTitle: true,
@@ -87,8 +89,8 @@ class _NavBarScreenState extends State<NavBarScreen> {
       iconSize: width * 0.04,
       elevation: 0,
       currentIndex: Provider.of<NavbarIndex>(context).seletedIndex,
-      selectedItemColor: Colors.purple,
-      unselectedItemColor: Colors.black,
+      selectedItemColor: originalColor,
+      unselectedItemColor: blackColor,
       onTap: _onItemTapped,
     );
   }

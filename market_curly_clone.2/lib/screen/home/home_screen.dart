@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:market_curly_clone/colors/color.dart';
+import 'package:market_curly_clone/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:market_curly_clone/providers/products.dart';
@@ -36,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final productsData = Provider.of<GetProducts>(context);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Column(children: [
         SizedBox(
@@ -46,16 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [...rendermenu()]),
         ),
         productsData.loading
-            ? SizedBox(
-                width: width * 0.02,
-                height: width * 0.02,
-                child: const ScrollConfiguration(
-                  behavior: ScrollBehavior(),
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.grey,
-                    strokeWidth: 2,
-                  ),
-                ))
+            ? const LoadingScreen()
             : Expanded(
                 child: _PageView(
                 controller: controller,
@@ -103,7 +97,7 @@ class _TopBarState extends State<_TopBar> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -111,13 +105,11 @@ class _TopBarState extends State<_TopBar> {
         child: Text(widget.menu,
             style: TextStyle(
                 fontSize: width * 0.028,
-                color: widget.isActive
-                    ? const Color(0xff5f0080)
-                    : const Color.fromARGB(255, 129, 124, 124))),
+                color: widget.isActive ? originalColor : greyColor)),
         decoration: widget.isActive
-            ? const BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(width: 3, color: Color(0xff5f0080))))
+            ? BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(width: 3, color: originalColor)))
             : null,
       ),
     );
@@ -171,13 +163,12 @@ class DropDownWidgetState extends State<DropDownWidget> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_drop_down_sharp),
       elevation: 16,
-      style: TextStyle(fontSize: width * 0.025, color: Colors.black),
+      style: TextStyle(fontSize: width * 0.025, color: blackColor),
       underline: const SizedBox(),
       // ignore: non_constant_identifier_names
       onChanged: (String? NewValue) {

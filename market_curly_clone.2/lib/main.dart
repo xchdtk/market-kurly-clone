@@ -8,6 +8,8 @@ import 'package:market_curly_clone/providers/login.dart';
 import 'package:market_curly_clone/providers/navbar.dart';
 import 'package:market_curly_clone/providers/products.dart';
 
+import 'colors/color.dart';
+
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('LocalMarketKulry');
@@ -39,7 +41,7 @@ class MarketKurlyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          backgroundColor: Colors.white,
+          backgroundColor: whiteColor,
         ),
         home: const SplashScreen());
   }

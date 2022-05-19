@@ -1,7 +1,6 @@
 import 'package:badges/badges.dart';
 import "package:flutter/material.dart";
-import 'package:flutter/rendering.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:market_curly_clone/colors/color.dart';
 import 'package:market_curly_clone/providers/search.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
@@ -107,7 +106,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
           height: height * 0.05,
           padding: EdgeInsets.only(top: height * 0.008),
           margin: EdgeInsets.symmetric(vertical: height * 0.008),
-          color: const Color(0xffEAE3E2),
+          color: greyTone,
           width: focusNode.hasFocus ? width * 0.8 : width * 0.92,
           child: TextFormField(
               onChanged: (text) {
@@ -115,7 +114,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                     .changeText(text);
                 setState(() {});
               },
-              cursorColor: Colors.black,
+              cursorColor: blackColor,
               focusNode: focusNode,
               controller: searchController,
               textInputAction: TextInputAction.search,
@@ -130,23 +129,23 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
               },
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  fillColor: Colors.grey,
+                  fillColor: greyTone,
                   hintText: "검색어를 입력해주세요",
-                  prefixIcon: const Align(
+                  prefixIcon: Align(
                     widthFactor: 0.5,
                     heightFactor: 1,
                     child: Icon(
                       Icons.search,
-                      color: Colors.grey,
+                      color: greyColor,
                     ),
                   ),
                   suffixIcon: searchController.text == ''
                       ? null
                       : IconButton(
                           padding: EdgeInsets.only(bottom: height * 0.0075),
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.highlight_remove,
-                            color: Colors.grey,
+                            color: greyColor,
                           ),
                           onPressed: () {
                             searchController.clear();
@@ -355,7 +354,7 @@ class _BadgeWidgetState extends State<BadgeWidget> {
             horizontal: width * 0.04, vertical: height * 0.01),
         shape: BadgeShape.square,
         borderRadius: BorderRadius.circular(30),
-        badgeColor: Colors.white,
+        badgeColor: whiteColor,
         badgeContent: GestureDetector(
           onTap: () async {
             if (deleteState) {
@@ -373,7 +372,7 @@ class _BadgeWidgetState extends State<BadgeWidget> {
                 children: [
                   Text(
                     widget.title,
-                    style: const TextStyle(color: Colors.black),
+                    style: TextStyle(color: blackColor),
                   ),
                   deleteState
                       ? Icon(
@@ -409,7 +408,7 @@ class ProductTitleWidget extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.02,
             child: Text(
               "상품 바로가기",
-              style: TextStyle(color: Colors.grey, fontSize: width * 0.035),
+              style: TextStyle(color: greyTone, fontSize: width * 0.035),
             ),
           ),
           Expanded(
@@ -527,11 +526,11 @@ class _SearchListViewState extends State<SearchListView> {
                             Icon(
                               Icons.search,
                               size: width * 0.1,
-                              color: Colors.grey,
+                              color: greyTone,
                             ),
-                            const Text(
+                            Text(
                               "검색한 상품이 없습니다.",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: greyTone),
                             )
                           ]),
                     )),

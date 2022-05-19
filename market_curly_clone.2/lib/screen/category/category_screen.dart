@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:market_curly_clone/colors/color.dart';
 import 'package:market_curly_clone/providers/category.dart';
 import 'package:provider/provider.dart';
 
@@ -14,13 +15,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     final categoriesData = Provider.of<GetCategories>(context);
     return categoriesData.loading
-        ? const SizedBox(
+        ? SizedBox(
             width: 20,
             height: 20,
             child: ScrollConfiguration(
-              behavior: ScrollBehavior(),
+              behavior: const ScrollBehavior(),
               child: CircularProgressIndicator(
-                backgroundColor: Colors.grey,
+                backgroundColor: greyTone,
                 strokeWidth: 2,
               ),
             ))
@@ -61,7 +62,7 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = isSelect ? const Color(0xff5f0080) : Colors.black;
+    Color color = isSelect ? originalColor : blackColor;
     Image iconImage = Image.asset('assets/images/category_fruit.png',
         width: MediaQuery.of(context).size.width * 0.06,
         height: MediaQuery.of(context).size.height * 0.04,
@@ -75,9 +76,8 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
       child: Column(children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: const BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color: Color(0xffE3DFDF), width: 1))),
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: greyTone, width: 1))),
           child: Column(children: [
             SizedBox(
               height: 40.0,
@@ -95,23 +95,23 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
                       isSelect
                           ? Text(
                               widget.title,
-                              style: const TextStyle(
-                                color: Color(0xff5f0080),
+                              style: TextStyle(
+                                color: originalColor,
                               ),
                             )
                           : Text(
                               widget.title,
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: blackColor),
                             )
                     ],
                   ),
                   isSelect
-                      ? const Icon(
+                      ? Icon(
                           Icons.keyboard_arrow_up_outlined,
-                          color: Colors.grey,
+                          color: greyTone,
                         )
-                      : const Icon(Icons.keyboard_arrow_down_outlined,
-                          color: Colors.grey)
+                      : Icon(Icons.keyboard_arrow_down_outlined,
+                          color: greyTone)
                 ],
               ),
             ),
@@ -134,7 +134,7 @@ class dropDownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xffD9D3D2),
+      color: greyTone,
       child: Container(
         padding: const EdgeInsets.only(left: 55.0),
         child: ListView(
