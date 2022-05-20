@@ -23,12 +23,15 @@ Future<String> postLogin(String userId, String password) async {
         Uri.parse("http://192.168.0.208:5000/login"),
         headers: {'Content-Type': 'application/json'},
         body: body);
+
     if (response.statusCode == 200) {
       final parsedBody = jsonDecode(response.body);
       final loginData = Login.fromJson(parsedBody);
+      
       await Hive.box('LocalMarketKulry').put('userId', loginData.userId);
       await Hive.box('LocalMarketKulry')
           .put('accessToken', loginData.accessToken);
+
       return 'success login';
     } else {
       return 'fail login';

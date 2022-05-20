@@ -32,7 +32,7 @@ class RecentSearchesCheck with ChangeNotifier {
     }
 
     _searchWords = [
-      for (var v in box.keys.toList()) [v, box.get(v)]
+      for (var key in box.keys.toList()) [key, box.get(key)]
     ];
 
     notifyListeners();
@@ -46,7 +46,7 @@ class RecentSearchesCheck with ChangeNotifier {
       _searchWords = [];
     } else {
       _searchWords = [
-        for (var v in box.keys.toList()) [v, box.get(v)]
+        for (var key in box.keys.toList()) [key, box.get(key)]
       ];
     }
 
