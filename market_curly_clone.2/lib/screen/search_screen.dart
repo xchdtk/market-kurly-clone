@@ -5,8 +5,8 @@ import 'package:market_curly_clone/providers/search.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
-import '../../providers/products.dart';
-import '../home/new_items_screen.dart';
+import '../providers/products.dart';
+import 'home/new_items_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

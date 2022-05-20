@@ -3,7 +3,7 @@ import 'package:market_curly_clone/providers/category.dart';
 import 'package:market_curly_clone/providers/search.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:market_curly_clone/screen/splash.dart';
+import 'package:market_curly_clone/screen/splash_screen.dart';
 import 'package:market_curly_clone/providers/login.dart';
 import 'package:market_curly_clone/providers/navbar.dart';
 import 'package:market_curly_clone/providers/products.dart';

@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_svg/svg.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 import 'package:market_curly_clone/colors/color.dart';
-import 'package:market_curly_clone/screen/detail.dart';
+import 'package:market_curly_clone/screen/detail_screen.dart';
 import 'package:provider/provider.dart';
 import '../../providers/products.dart';
 

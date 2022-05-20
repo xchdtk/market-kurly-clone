@@ -4,10 +4,10 @@ import '../providers/category.dart';
 import '../providers/navbar.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
-import 'package:market_curly_clone/screen/my/my_screen.dart';
+import 'package:market_curly_clone/screen/my_screen.dart';
 import 'package:market_curly_clone/screen/home/home_screen.dart';
-import 'package:market_curly_clone/screen/search/search_screen.dart';
-import 'package:market_curly_clone/screen/category/category_screen.dart';
+import 'package:market_curly_clone/screen/search_screen.dart';
+import 'package:market_curly_clone/screen/category_screen.dart';
 
 final List<String> appBarTitle = ["MarketKurly", "카테고리", "검색", "마이컬리"];
 

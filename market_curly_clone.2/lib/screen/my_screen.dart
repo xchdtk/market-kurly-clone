@@ -1,10 +1,10 @@
 import 'package:market_curly_clone/colors/color.dart';
 
-import '../../providers/login.dart';
+import '../providers/login.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:market_curly_clone/screen/login.dart';
+import 'package:market_curly_clone/screen/login_screen.dart';
 import 'package:market_curly_clone/screen/button.dart';
 
 class MyScreen extends StatefulWidget {

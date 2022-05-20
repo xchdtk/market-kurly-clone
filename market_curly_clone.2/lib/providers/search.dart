@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:market_curly_clone/screen/search/search_screen.dart';
+import 'package:market_curly_clone/screen/search_screen.dart';
 
 class SearchTextCheck with ChangeNotifier {
   String _searchWord = '';
