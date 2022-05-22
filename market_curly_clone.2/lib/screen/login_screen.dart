@@ -1,4 +1,5 @@
 import 'package:market_curly_clone/colors/color.dart';
+import 'package:market_curly_clone/screen/register_screen.dart';
 
 import 'button.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     TextFormField userIdTextFormField = TextFormField(
@@ -155,6 +155,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: height * 0.01),
                   const _FindLoginPasswordWidget(),
                   SizedBox(height: height * 0.04),
+                  OutLinedButtonWidget(
+                    title: "회원가입",
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => const RegisterScreen())));
+                    },
+                  ),
                 ],
               ))),
     );
@@ -175,7 +182,7 @@ class _FindLoginPasswordWidget extends StatelessWidget {
       children: [
         Text(
           "아이디 찾기",
-          style: TextStyle(fontSize: width * 0.023),
+          style: TextStyle(fontSize: width * 0.03),
         ),
         SizedBox(
           width: width * 0.01,
@@ -186,7 +193,7 @@ class _FindLoginPasswordWidget extends StatelessWidget {
         ),
         Text(
           "비밀번호 찾기",
-          style: TextStyle(fontSize: width * 0.023),
+          style: TextStyle(fontSize: width * 0.03),
         )
       ],
     );

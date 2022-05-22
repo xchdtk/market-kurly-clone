@@ -6,3 +6,4 @@ Color whiteColor = Colors.white;
 Color redColor = Colors.red;
 Color greyTone = const Color(0xffe5dede);
 Color greyColor = Colors.grey;
+Color greenColor = Colors.green;

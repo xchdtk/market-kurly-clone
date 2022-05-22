@@ -27,7 +27,7 @@ Future<String> postLogin(String userId, String password) async {
     if (response.statusCode == 200) {
       final parsedBody = jsonDecode(response.body);
       final loginData = Login.fromJson(parsedBody);
-      
+
       await Hive.box('LocalMarketKulry').put('userId', loginData.userId);
       await Hive.box('LocalMarketKulry')
           .put('accessToken', loginData.accessToken);
