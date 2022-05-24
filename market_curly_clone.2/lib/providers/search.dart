@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:market_curly_clone/screen/search_screen.dart';
+import 'package:market_curly_clone/screen/search/real_time_search.dart';
 
 class SearchTextCheck with ChangeNotifier {
   String _searchWord = '';
-  List<Widget> _listWidget = [const ProductTitleWidget()];
+  List<Widget> _listWidget = [const RealTimeSearchWidget()];
 
   String get searchWord => _searchWord;
   List<Widget> get listWidget => _listWidget;

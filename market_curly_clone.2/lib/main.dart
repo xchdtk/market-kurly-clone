@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_curly_clone/providers/category.dart';
-import 'package:market_curly_clone/providers/registerCheck.dart';
+import 'package:market_curly_clone/providers/register_check.dart';
 import 'package:market_curly_clone/providers/search.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';

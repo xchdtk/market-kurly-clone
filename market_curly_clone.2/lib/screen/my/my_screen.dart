@@ -1,10 +1,10 @@
 import 'package:market_curly_clone/colors/color.dart';
 
-import '../providers/login.dart';
+import '../../providers/login.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:market_curly_clone/screen/login_screen.dart';
+import 'package:market_curly_clone/screen/login/login_screen.dart';
 import 'package:market_curly_clone/screen/button.dart';
 
 class MyScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class _MyScreenState extends State<MyScreen> {
       body: Column(
         children: [
           Provider.of<LoginState>(context).isLogined
-              ? const logOutWidget()
+              ? const LogOutWidget()
               : const LoginResigerWidget(),
           Container(
             color: greyTone,
@@ -67,8 +67,8 @@ class LoginResigerWidget extends StatelessWidget {
 }
 
 // ignore: camel_case_types
-class logOutWidget extends StatelessWidget {
-  const logOutWidget({Key? key}) : super(key: key);
+class LogOutWidget extends StatelessWidget {
+  const LogOutWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'drop_down.dart';
 import 'home_screen.dart';
 import "package:flutter/material.dart";
 import '../../providers/products.dart';
@@ -43,7 +44,6 @@ class _ProductListViewState extends State<ProductListView> {
 
     final products = Provider.of<GetProducts>(context).products;
     return Scrollbar(
-      showTrackOnHover: true,
       controller: scrollController,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -127,7 +127,7 @@ class CountSortWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("총 $productLength개", style: TextStyle(fontSize: width * 0.025)),
-          const DropDownWidget(),
+          const ProductDropDownWidget(),
         ],
       ),
     );

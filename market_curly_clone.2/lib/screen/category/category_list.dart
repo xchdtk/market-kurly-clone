@@ -1,51 +1,12 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:market_curly_clone/colors/color.dart';
-import 'package:market_curly_clone/providers/category.dart';
-import 'package:provider/provider.dart';
+import 'package:market_curly_clone/screen/category/drop_down.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
-
-  @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final categoriesData = Provider.of<GetCategories>(context);
-    return categoriesData.loading
-        ? SizedBox(
-            width: 20,
-            height: 20,
-            child: ScrollConfiguration(
-              behavior: const ScrollBehavior(),
-              child: CircularProgressIndicator(
-                backgroundColor: greyTone,
-                strokeWidth: 2,
-              ),
-            ))
-        : Scrollbar(
-            showTrackOnHover: true,
-            child: ListView(children: [
-              ...categoriesData.categories
-                  .map((element) => _categoryListWidget(
-                        icon: element.icon,
-                        title: element.title,
-                        subCategory: element.subCategory,
-                      ))
-                  .toList()
-            ]),
-          );
-  }
-}
-
-// ignore: camel_case_types
-class _categoryListWidget extends StatefulWidget {
+class CategoryListWidget extends StatefulWidget {
   final icon;
   final title;
   final subCategory;
-  const _categoryListWidget(
+  const CategoryListWidget(
       {required this.icon,
       required this.title,
       required this.subCategory,
@@ -53,11 +14,11 @@ class _categoryListWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<_categoryListWidget> createState() => __categoryListWidgetState();
+  State<CategoryListWidget> createState() => _CategoryListWidget();
 }
 
 // ignore: camel_case_types
-class __categoryListWidgetState extends State<_categoryListWidget> {
+class _CategoryListWidget extends State<CategoryListWidget> {
   bool isSelect = false;
 
   @override
@@ -118,34 +79,11 @@ class __categoryListWidgetState extends State<_categoryListWidget> {
           ]),
         ),
         isSelect
-            ? dropDownWidget(
+            ? CategoryDropDownWidget(
                 subCategory: widget.subCategory,
               )
             : const SizedBox()
       ]),
-    );
-  }
-}
-
-// ignore: camel_case_types
-class dropDownWidget extends StatelessWidget {
-  final List<dynamic> subCategory;
-  const dropDownWidget({required this.subCategory, Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: greyTone,
-      child: Container(
-        padding: const EdgeInsets.only(left: 55.0),
-        child: ListView(
-            shrinkWrap: true,
-            children: subCategory.map((element) {
-              return Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(element),
-              );
-            }).toList()),
-      ),
     );
   }
 }

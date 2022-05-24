@@ -1,7 +1,7 @@
 import 'package:market_curly_clone/colors/color.dart';
-import 'package:market_curly_clone/screen/register_screen.dart';
+import 'package:market_curly_clone/screen/register/register_screen.dart';
 
-import 'button.dart';
+import '../button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: "로그인",
                   ),
                   SizedBox(height: height * 0.01),
-                  const _FindLoginPasswordWidget(),
+                  const FindLoginPasswordWidget(),
                   SizedBox(height: height * 0.04),
                   OutLinedButtonWidget(
                     title: "회원가입",
@@ -169,13 +169,12 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 // ignore: unused_element
-class _FindLoginPasswordWidget extends StatelessWidget {
-  const _FindLoginPasswordWidget({Key? key}) : super(key: key);
+class FindLoginPasswordWidget extends StatelessWidget {
+  const FindLoginPasswordWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final data = Hive.box('LocalMarketKulry').get('accessToken');
       if (data != '') {
         Provider.of<LoginState>(context, listen: false).changeLoginState();

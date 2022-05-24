@@ -1,17 +1,14 @@
 import "package:flutter/material.dart";
-import 'package:market_curly_clone/colors/color.dart';
-import 'package:market_curly_clone/loading.dart';
+import 'package:market_curly_clone/screen/home/products_page_view.dart';
+import 'package:market_curly_clone/screen/home/top_bar.dart';
+import 'package:market_curly_clone/screen/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:market_curly_clone/providers/products.dart';
 
-import 'new_items_screen.dart';
-import ' suggestion_screen.dart';
-
 // ignore: constant_identifier_names
 const List<String> TopBarMenus = ["컬리추천", "신상품", "베스트", "알뜰쇼핑", "특가/혜택"];
-// ignore: constant_identifier_names
-const List<String> DropDownMenus = ['신상품순', '판매량순', "혜택순", "낮은 가격순", "높은 가격순"];
+
 const Duration defaultDuration = Duration(milliseconds: 200);
 const Curve defaultCurve = Curves.linear;
 
@@ -51,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         productsData.loading
             ? const LoadingScreen()
             : Expanded(
-                child: _PageView(
+                child: ProductsPageView(
                 controller: controller,
                 currentPage: currentPage,
                 onPageChange: (page) => {
@@ -64,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> rendermenu() {
     final widgets = TopBarMenus.mapIndexed((index, element) {
-      return _TopBar(
+      return TopBar(
           menu: element,
           onTap: () {
             controller.animateToPage(index,
@@ -74,114 +71,5 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
 
     return widgets;
-  }
-}
-
-class _TopBar extends StatefulWidget {
-  final String menu;
-  final VoidCallback onTap;
-  final bool isActive;
-
-  const _TopBar(
-      {required this.menu,
-      required this.onTap,
-      required this.isActive,
-      Key? key})
-      : super(key: key);
-
-  @override
-  State<_TopBar> createState() => _TopBarState();
-}
-
-class _TopBarState extends State<_TopBar> {
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        padding: EdgeInsets.all(width * 0.033),
-        child: Text(widget.menu,
-            style: TextStyle(
-                fontSize: width * 0.028,
-                color: widget.isActive ? originalColor : greyColor)),
-        decoration: widget.isActive
-            ? BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(width: 3, color: originalColor)))
-            : null,
-      ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class _PageView extends StatefulWidget {
-  final PageController controller;
-  int currentPage;
-  final ValueChanged<int>? onPageChange;
-
-  _PageView(
-      {required this.controller,
-      required this.currentPage,
-      required this.onPageChange,
-      Key? key})
-      : super(key: key);
-
-  @override
-  State<_PageView> createState() => __PageViewState();
-}
-
-class __PageViewState extends State<_PageView> {
-  @override
-  Widget build(BuildContext context) {
-    return PageView(
-      controller: widget.controller,
-      onPageChanged: widget.onPageChange,
-      scrollDirection: Axis.horizontal,
-      children: const [
-        KulyPicks(),
-        NewItem(),
-        NewItem(),
-        NewItem(),
-        NewItem(),
-      ],
-    );
-  }
-}
-
-class DropDownWidget extends StatefulWidget {
-  const DropDownWidget({Key? key}) : super(key: key);
-
-  @override
-  State<DropDownWidget> createState() => DropDownWidgetState();
-}
-
-class DropDownWidgetState extends State<DropDownWidget> {
-  String dropdownValue = DropDownMenus[0];
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_drop_down_sharp),
-      elevation: 16,
-      style: TextStyle(fontSize: width * 0.025, color: blackColor),
-      underline: const SizedBox(),
-      // ignore: non_constant_identifier_names
-      onChanged: (String? NewValue) {
-        setState(() {
-          dropdownValue = NewValue!;
-        });
-      },
-      items: DropDownMenus.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
   }
 }

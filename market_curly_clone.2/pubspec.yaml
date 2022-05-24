@@ -43,6 +43,8 @@ dependencies:
     badges: ^2.0.2
     page_transition: ^2.0.5
     modal_bottom_sheet: ^2.0.1
+    scroll_to_index: ^3.0.1
+    group_button: ^5.0.1
 
 dev_dependencies:
     flutter_test:
